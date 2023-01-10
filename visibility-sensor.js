@@ -1,7 +1,6 @@
 "use strict";
 
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import isVisibleWithOffset from "./lib/is-visible-with-offset";
 
@@ -76,6 +75,8 @@ export default class VisibilitySensor extends React.Component {
   constructor(props) {
     super(props);
 
+    this.node = React.createRef();
+
     this.state = {
       isVisible: null,
       visibilityRect: {}
@@ -83,7 +84,6 @@ export default class VisibilitySensor extends React.Component {
   }
 
   componentDidMount() {
-    this.node = this.sensorNode || ReactDOM.findDOMNode(this);
     if (this.props.active) {
       this.startWatching();
     }
@@ -94,9 +94,6 @@ export default class VisibilitySensor extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // re-register node in componentDidUpdate if children diffs [#103]
-    this.node = this.sensorNode || ReactDOM.findDOMNode(this);
-
     if (this.props.active && !prevProps.active) {
       this.setState({
         isVisible: null,
@@ -219,7 +216,7 @@ export default class VisibilitySensor extends React.Component {
    * Check if the element is within the visible viewport
    */
   check = () => {
-    const el = this.node;
+    const el = this.node && this.node.current;
     let rect;
     let containmentRect;
 
@@ -324,19 +321,17 @@ export default class VisibilitySensor extends React.Component {
     return state;
   };
 
-  render() {
-    const sensorRef = nodeRef => {
-      this.sensorNode = nodeRef;
-    }
+  renderChildren = () => {
     if (this.props.children instanceof Function) {
       return this.props.children({
-        sensorRef,
         isVisible: this.state.isVisible,
         visibilityRect: this.state.visibilityRect
       });
     }
-    return React.cloneElement(React.Children.only(this.props.children), {
-      ref: sensorRef
-    });
+    return React.Children.only(this.props.children);
+  };
+
+  render() {
+    return <div ref={this.node}>{this.renderChildren()}</div>;
   }
 }

@@ -1,4 +1,4 @@
-declare module "react-visibility-sensor" {
+declare module "@zelty/react-visibility-sensor" {
   import * as React from "react";
 
   interface Shape {

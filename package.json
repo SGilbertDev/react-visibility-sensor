@@ -1,8 +1,9 @@
 {
-  "name": "react-visibility-sensor",
-  "version": "5.1.1",
+  "name": "@zelty/react-visibility-sensor",
+  "version": "5.1.6",
   "description": "Sensor component for React that notifies you when it goes in or out of the window viewport.",
   "main": "dist/visibility-sensor.js",
+  "types": "index.d.ts",
   "scripts": {
     "clean": "rm -rf dist && mkdir dist",
     "prebuild": "npm run clean",
@@ -48,7 +49,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/joshwnj/react-visibility-sensor.git"
+    "url": "git+https://github.com/joshwnj/react-visibility-sensor.git"
   },
   "dependencies": {
     "prop-types": "^15.7.2"
@@ -63,5 +64,14 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "bugs": {
+    "url": "https://github.com/joshwnj/react-visibility-sensor/issues"
+  },
+  "homepage": "https://github.com/joshwnj/react-visibility-sensor#readme",
+  "directories": {
+    "example": "example",
+    "lib": "lib",
+    "test": "tests"
   }
 }
